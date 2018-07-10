@@ -1,18 +1,24 @@
 const socket = io("http://localhost:3000/");
 
 var Rocket_ID, rocket;
+
 socket.on("connect", () => {
    console.log('Start Playing !!!')
    console.log('client', socket.id);
    Rocket_ID = socket.id;
 });
 
+socket.on("disconnected", id => {
+    alert(`Rocket with id ${id} is removed`);
+});
+
+
 socket.on('rocket_creator', rocketsInfo => {
     let spaceship;
+    $("img").remove();
     for(let r in rocketsInfo)
     {
       let rocket =rocketsInfo[r];
-      if($('#' + rocket.id).length === 0)
       {
           $( "#gameboard" ).append( `<img id=${rocket.id} src="ship.png" style=" width: 70px; height: 70px;"" />` );
             spaceship = $("#" + rocket.id);
